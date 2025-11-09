@@ -49,18 +49,23 @@ def product_details(req):
         # products = Product.objects.all()
         # serializer = ProductSerializer(products, many=True)
         # return JsonResponse({'Details': serializer.data}, safe=False)
+
         products = Product.objects.all()
         response_data = []
         for product in products:
-            photo_url, _ = cloudinary_url(product.photo.public_id, fetch_format="auto", quality="auto")
+            if product.photo:  # Check if photo exists
+                photo_url, _ = cloudinary_url(product.photo.public_id, fetch_format="auto", quality="auto")
+            else:
+                photo_url = None  # or a placeholder URL
             response_data.append({
                 "id": product.id,
                 "name": product.name,
                 "description": product.description,
                 "price": product.price,
                 "photo": photo_url
-        })
+            })
         return JsonResponse({'Details': response_data}, safe=False)
+
 
         
 
