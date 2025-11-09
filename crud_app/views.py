@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Product
 from .serializers import ProductSerializer
+from cloudinary.utils import cloudinary_url
 import json
 
 # ---------- Validation Functions ----------
@@ -34,6 +35,7 @@ def product_details(req):
         }
         photo = req.FILES.get('photo')
         data['photo'] = photo
+        print(data['photo'])
 
         final_data = ProductSerializer(data=data)
         if final_data.is_valid():
@@ -44,9 +46,23 @@ def product_details(req):
 
     # ----- GET (Fetch All Products) -----
     elif req.method == "GET":
+        # products = Product.objects.all()
+        # serializer = ProductSerializer(products, many=True)
+        # return JsonResponse({'Details': serializer.data}, safe=False)
         products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return JsonResponse({'Details': serializer.data}, safe=False)
+        response_data = []
+        for product in products:
+            photo_url, _ = cloudinary_url(product.photo.public_id, fetch_format="auto", quality="auto")
+            response_data.append({
+                "id": product.id,
+                "name": product.name,
+                "description": product.description,
+                "price": product.price,
+                "photo": photo_url
+        })
+        return JsonResponse({'Details': response_data}, safe=False)
+
+        
 
     # ----- PATCH (Update Product) -----
     elif req.method == "PATCH":
