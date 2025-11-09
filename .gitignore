@@ -1,0 +1,122 @@
+# ============================================
+# Django + Python + IDE + OS + Virtualenv
+# ============================================
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django migrations (optional, comment out if you want to track them)
+*/migrations/*
+!*/migrations/__init__.py
+
+# SQLite database
+db.sqlite3
+*.db
+
+# Django static & media files
+/static/
+/media/
+/staticfiles/
+/public/static/
+/public/media/
+
+# Local environment files
+.env
+.env.*
+*.env
+*.ini
+*.cfg
+*.conf
+*.secret
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+virtualenv/
+.venv.bak/
+venv.bak/
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+local_settings.py
+instance/
+webapps/
+uploads/
+
+# Media or temp files
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# PyCharm / VS Code / other IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# macOS / Windows / Linux system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Build / Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+MANIFEST
+
+# Node modules (if using frontend inside Django)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Backup / archives
+*.bak
+*.old
+*.orig
+*.zip
+*.tar.gz
+*.rar
+
+# Docker / deployment
+docker-compose.override.yml
+*.pid
+celerybeat-schedule
+celerybeat.pid
+
+# JetBrains / VS Code settings
+*.code-workspace
+*.iml
