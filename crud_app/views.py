@@ -64,6 +64,7 @@ def product_details(req):
                 "price": product.price,
                 "photo": photo_url
             })
+            print(photo_url)
         return JsonResponse({'Details': response_data}, safe=False)
 
 
