@@ -8,8 +8,8 @@ __pycache__/
 *$py.class
 
 # Django migrations (optional, comment out if you want to track them)
-*/migrations/*
-!*/migrations/__init__.py
+# */migrations/*
+# !*/migrations/__init__.py
 
 # SQLite database
 db.sqlite3
