@@ -7,5 +7,5 @@ class Product(models.Model):
     name=models.CharField(max_length=30,default='null')
     description=models.CharField(max_length=50,default='No description')
     price=models.IntegerField()
-    photo = CloudinaryField('image', null=True, blank=True)
+    photo = CloudinaryField('image',blank=True,default='null')
 
