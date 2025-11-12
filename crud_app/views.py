@@ -4,6 +4,9 @@ from django.http import JsonResponse
 from .models import Product
 from .serializers import ProductSerializer
 from cloudinary.utils import cloudinary_url
+import cloudinary
+import cloudinary.uploader
+
 import json
 
 # ---------- Validation Functions ----------
@@ -28,44 +31,39 @@ def validate_price(price):
 def product_details(req):
     # ----- POST (Create Product) -----
     if req.method == 'POST':
-        data = {
-            'name': req.POST.get('name'),
-            'description': req.POST.get('description'),
-            'price': req.POST.get('price'),
-        }
+        name= req.POST.get('name')
+        description=req.POST.get('description')
+        price =int(req.POST.get('price'))
         photo = req.FILES.get('photo')
-        data['photo'] = photo
-        print(data['photo'])
+        upload_result = cloudinary.uploader.upload(photo)
+        
+        product = Product.objects.create(name=name,description=description,price=price,photo=upload_result["secure_url"])
+        serializer = ProductSerializer(product)
+        return JsonResponse({'products_details': serializer.data})
 
-        final_data = ProductSerializer(data=data)
-        if final_data.is_valid():
-            final_data.save()
-            return JsonResponse({'products_details': final_data.data})
-        else:
-            return JsonResponse(final_data.errors)
 
     # ----- GET (Fetch All Products) -----
     elif req.method == "GET":
-        # products = Product.objects.all()
-        # serializer = ProductSerializer(products, many=True)
-        # return JsonResponse({'Details': serializer.data}, safe=False)
-
         products = Product.objects.all()
-        response_data = []
-        for product in products:
-            if product.photo:  # Check if photo exists
-                photo_url, _ = cloudinary_url(product.photo.public_id, fetch_format="auto", quality="auto")
-            else:
-                photo_url = None  # or a placeholder URL
-            response_data.append({
-                "id": product.id,
-                "name": product.name,
-                "description": product.description,
-                "price": product.price,
-                "photo": photo_url
-            })
-            print(photo_url)
-        return JsonResponse({'Details': response_data}, safe=False)
+        serializer = ProductSerializer(products, many=True)
+        return JsonResponse({'Details': serializer.data}, safe=False)
+
+        # products = Product.objects.all()
+        # response_data = []
+        # for product in products:
+        #     if product.photo:  # Check if photo exists
+        #         photo_url, _ = cloudinary_url(product.photo.public_id, fetch_format="auto", quality="auto")
+        #     else:
+        #         photo_url = None  # or a placeholder URL
+        #     response_data.append({
+        #         "id": product.id,
+        #         "name": product.name,
+        #         "description": product.description,
+        #         "price": product.price,
+        #         "photo": photo_url
+        #     })
+        #     print(photo_url)
+        # return JsonResponse({'Details': response_data}, safe=False)
 
 
         
